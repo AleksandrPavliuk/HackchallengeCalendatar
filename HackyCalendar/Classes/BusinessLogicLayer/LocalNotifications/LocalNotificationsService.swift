@@ -67,25 +67,22 @@ extension LocalNotificationsService {
     }
 
     func setReminder(for entity: LocalNotificationServiceEntity) {
-        DispatchQueue.main.async {
+        let triggerDate = Calendar.current.dateComponents(
+            [.year, .month, .day, .hour, .minute, .second],
+            from: entity.date
+        )
+        let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: false)
 
-            let triggerDate = Calendar.current.dateComponents(
-                [.year, .month, .day, .hour, .minute, .second],
-                from: entity.date
-            )
-            let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: false)
+        let content = UNMutableNotificationContent()
+        content.title =
+        """
+        Event "\(entity.title)" is starting now
+        """
+        content.body = entity.body
+        content.sound = UNNotificationSound.default
 
-            let content = UNMutableNotificationContent()
-            content.title =
-            """
-            Event "\(entity.title)" is starting now
-            """
-            content.body = entity.body
-            content.sound = UNNotificationSound.default
-
-            let request = UNNotificationRequest(identifier: entity.id, content: content, trigger: trigger)
-            self.notificationCenter.add(request)
-        }
+        let request = UNNotificationRequest(identifier: entity.id, content: content, trigger: trigger)
+        self.notificationCenter.add(request)
     }
 }
 
