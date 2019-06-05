@@ -1,6 +1,7 @@
 # HackyCalendatar
 
 ## Features
+* Swift 5
 * Connect to the iPhone Calendar
 * Shows list of the upcoming events
 * If event has native alarm user can cancel it by tapping on a table cell
